@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Build output
+out/
+dist/
+dist-electron/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Database files (user data — stored in ~/Library/Application Support/Kronos/)
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Local notes
+IDEAS.md
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# electron-builder temp files — keep build/ (contains icon.icns needed for packaging)

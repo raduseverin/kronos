@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+}
+
+/*
+ * Theme tokens.
+ *
+ * The slate scale is defined as RGB triplets so Tailwind colors compiled to
+ * `rgb(var(--slate-N) / <alpha-value>)` resolve at runtime. Light theme is the
+ * inverted scale: high numbers (was bg in dark) become near-white, low numbers
+ * (was text in dark) become near-black. This means existing class strings like
+ * `bg-slate-900` and `text-slate-100` swap meaning automatically.
+ */
+:root {
+  /* Dark theme (default) */
+  --slate-50:  248 250 252;
+  --slate-100: 241 245 249;
+  --slate-200: 226 232 240;
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  --slate-500: 100 116 139;
+  --slate-600: 71 85 105;
+  --slate-700: 51 65 85;
+  --slate-750: 41 53 72;
+  --slate-800: 30 41 59;
+  --slate-850: 23 32 51;
+  --slate-900: 15 23 42;
+  --slate-950: 2 6 23;
+
+  --bg-app:    rgb(var(--slate-900));
+  --fg-app:    rgb(var(--slate-100));
+  --shadow-overlay: rgba(0, 0, 0, 0.6);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  /* Inverted scale — bg shades become light, text shades become dark. */
+  --slate-50:  15 23 42;
+  --slate-100: 30 41 59;
+  --slate-200: 51 65 85;
+  --slate-300: 71 85 105;
+  --slate-400: 100 116 139;
+  --slate-500: 130 145 165;
+  --slate-600: 180 195 215;
+  --slate-700: 226 232 240;
+  --slate-750: 230 234 240;
+  --slate-800: 241 245 249;
+  --slate-850: 245 248 251;
+  --slate-900: 248 250 252;
+  --slate-950: 255 255 255;
+
+  --bg-app:    rgb(var(--slate-900));
+  --fg-app:    rgb(var(--slate-100));
+  --shadow-overlay: rgba(15, 23, 42, 0.45);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg-app);
+  color: var(--fg-app);
+  transition: background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  /* Global keyboard focus ring — replaces stripped browser defaults. */
+  :where(button, [role="button"], a, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus {
+    outline: none;
+  }
+  :where(button, [role="button"], a, input, select, textarea, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 2px solid theme('colors.violet.500');
+    outline-offset: 1px;
+    border-radius: 6px;
+  }
+
+  /* macOS-style scrollbars to match dark surfaces. */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--slate-700));
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--slate-600));
+    background-clip: padding-box;
+    border: 2px solid transparent;
+  }
+
+  /* Date / time inputs — adapt the white-on-white system control per theme. */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator,
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+  :root input[type="date"]::-webkit-calendar-picker-indicator,
+  :root input[type="time"]::-webkit-calendar-picker-indicator,
+  :root input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+  }
+  [data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator,
+  [data-theme="light"] input[type="time"]::-webkit-calendar-picker-indicator,
+  [data-theme="light"] input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: none;
+  }
+}
+
+@layer components {
+  /* Shared form-control look. */
+  .input-base {
+    @apply w-full bg-slate-700 text-slate-100 text-sm rounded-md
+           px-3 py-2 border border-slate-600
+           placeholder:text-slate-500
+           outline-none
+           transition-colors duration-fast
+           focus:border-violet-500 focus:ring-1 focus:ring-violet-500/40;
+  }
+  .input-mono { @apply input-base font-mono; }
+
+  /* Surfaces. */
+  .card-surface  { @apply bg-slate-800/60 border border-slate-700/60 rounded-xl; }
+  .card-elevated { @apply bg-slate-800   border border-slate-700/80 rounded-xl; }
+
+  /* Ghost button (inline subtle action). */
+  .btn-ghost {
+    @apply text-slate-400 hover:text-slate-100 hover:bg-slate-700/50
+           rounded-md px-2 py-1 text-xs transition-colors duration-fast;
+  }
+}
