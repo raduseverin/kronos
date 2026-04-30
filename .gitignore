@@ -39,3 +39,6 @@ logs/
 npm-debug.log*
 
 # electron-builder temp files — keep build/ (contains icon.icns needed for packaging)
+
+# Source design assets
+kronos-app-icons/
